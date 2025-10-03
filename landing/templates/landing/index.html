@@ -1,0 +1,315 @@
+{% extends "landing/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% comment %} <video autoplay muted loop id="bgVideo">
+    <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+</video>
+<div class="content">
+    <h1>Welcome</h1>
+</div> {% endcomment %}
+
+
+<section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+    </video>
+    <div class="hero-overlay">
+        <h1>Urhobo Global Tech Foundation</h1>
+        <p>UGTF offer web/app Development services, we implements codes, and frameworks 
+      to achieve user-friendly websites and applications by leveraging various programming l
+      anguages. Let us deliver an interactive user interface for you and and solidify with 
+      a strong database on a secure server.</p>
+        {% comment %} <a href="#about" class="btn">Learn More</a> {% endcomment %}
+    </div>
+</section>
+
+
+<!-- Hero with background -->
+{% comment %} <section class="hero" style="background-image: url('{% static 'images/bg-her.jpg' %}');">
+  <div class="hero-overlay">
+    <h1>Urhobo Global Tech Foundation</h1>
+    <p>UGTF offer web/app Development services, we implements codes, and frameworks 
+      to achieve user-friendly websites and applications by leveraging various programming l
+      anguages. Let us deliver an interactive user interface for you and and solidify with 
+      a strong database on a secure server.</p>
+  </div>
+</section> {% endcomment %}
+
+
+<section class="slider">
+    <div class="slides">
+        <div class="slide active">
+            <img src="{% static 'images/logotop.png' %}" alt="Engineering" />
+            <div class="slide-caption">
+                <h3>Engineering excellence</h3>
+                <p>Clean architecture, testable code, and production-grade reliability.</p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="{% static 'images/slide-2.jpg' %}" alt="Automation" />
+            <div class="slide-caption">
+                <h3>Automation that saves time</h3>
+                <p>AI workflows integrated with your data and tools.</p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="{% static 'images/slide-3.jpg' %}" alt="Cloud" />
+            <div class="slide-caption">
+                <h3>Cloud-first delivery</h3>
+                <p>Deploy on AWS, Azure, or GCP with CI/CD baked in.</p>
+            </div>
+        </div>
+    </div>
+    <div class="slider-controls">
+        <button class="prev">‹</button>
+        <button class="next">›</button>
+    </div>
+</section>
+
+
+
+<!-- Slider -->
+<section class="slider">
+  <div class="slides">
+    <div class="slide active">
+      <img src="{% static 'images/logotop.png' %}" alt="Engineering" />
+      <div class="slide-caption">
+        <h3>Engineering excellence</h3>
+        <p>Clean architecture, testable code, and production-grade reliability.</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="{% static 'images/slide-2.jpg' %}" alt="Automation" />
+      <div class="slide-caption">
+        <h3>Automation that saves time</h3>
+        <p>AI workflows integrated with your data and tools.</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="{% static 'images/slide-3.jpg' %}" alt="Cloud" />
+      <div class="slide-caption">
+        <h3>Cloud-first delivery</h3>
+        <p>Deploy on AWS, Azure, or GCP with CI/CD baked in.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slider-controls">
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+  </div>
+</section>
+
+<!-- Action buttons -->
+<section class="actions">
+  <button class="btn action action-call" id="btnScoping">Book a 15mins scoping call</button>
+  <button class="btn action action-brief" id="btnBrief">Send a brief</button>
+  <a class="btn action action-phone" href="tel:+16554655">Call now</a>
+</section>
+
+<!-- Modals -->
+<div class="modal" id="modalScoping">
+  <div class="modal-content">
+    <button class="modal-close" data-close>&times;</button>
+    <h3>Book a 15-min scoping call</h3>
+    <form method="post" action="{% url 'submit_scoping_call' %}" class="form">
+      {% csrf_token %}
+      {{ scoping_form.as_p }}
+      <button type="submit" class="btn btn-primary">Book</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="modalBrief">
+  <div class="modal-content">
+    <button class="modal-close" data-close>&times;</button>
+    <h3>Send a brief</h3>
+    <form method="post" action="{% url 'submit_brief' %}" class="form">
+      {% csrf_token %}
+      {{ brief_form.as_p }}
+      <button type="submit" class="btn btn-secondary">Send</button>
+    </form>
+  </div>
+</div>
+
+<!-- Core Services  -->
+<section class="services">
+  <h2>Core services</h2>
+  <div class="service-grid">
+    <div class="card">
+      <h4>Web & App development</h4>
+      <p>From MVPs to enterprise products—responsive, accessible, and scalable.</p>
+    </div>
+    <div class="card">
+      <h4>Online payment integration</h4>
+      <p>Seamless checkout, subscriptions, and reconciliation across platforms.</p>
+    </div>
+    <div class="card">
+      <h4>AI & Automation</h4>
+      <p>Intelligent agents, data pipelines, and workflow orchestration.</p>
+    </div>
+    <div class="card">
+      <h4>LM/CRM</h4>
+      <p>Lead management and customer relationship systems tailored to your funnel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="services">
+  <h2>Recent Projects</h2>
+  <div class="demo-flex">
+    <div class="demo-card">
+      <h4>Online Hall Rental Solution</h4>
+      <p>Headless storefront, for hall rental bookings with online instant payment system</p>
+      <a href="https://ugtf.org/safehaven/" class="link">View demo</a>
+    </div>
+    <div class="demo-card">
+      <h4>24/7 emergency locksmiths Web App</h4>
+      <p>Locksmith Service automation with admin dashboard that records emergency calls and capture clicks and hit orgin</p>
+      <a href="https://menaskey-30228073381.us-west2.run.app/" class="link">View demo</a>
+    </div>
+    <div class="demo-card">
+      <h4>SaaS onboarding flow</h4>
+      <p>Guided setup, role-based access, and billing integration.</p>
+      <a href="#" class="link">View demo</a>
+    </div>
+  </div>
+</section>
+<!-- Projects2 -->
+<section class="services">
+  {% comment %} <h2>Recent Projects</h2> {% endcomment %}
+  <div class="demo-flex">
+    <div class="demo-card">
+      <h4>Modern eCommerce stack</h4>
+      <p>Headless storefront, secure payments, and analytics dashboards.</p>
+      <a href="#" class="link">View demo</a>
+    </div>
+    <div class="demo-card">
+      <h4>AI support assistant</h4>
+      <p>Context-aware responses integrated with CRM & knowledge bases.</p>
+      <a href="#" class="link">View demo</a>
+    </div>
+    <div class="demo-card">
+      <h4>SaaS onboarding flow</h4>
+      <p>Guided setup, role-based access, and billing integration.</p>
+      <a href="#" class="link">View demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Technologies logos -->
+<section class="services">
+<h2>Technologies we collaborate with.</h2>
+<section class="card-grid">
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/openai.png' %}" alt="Open AI">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Open Ai</h3>
+      </div>
+    </a>
+  </article>
+
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/google.png' %}" alt="Google Cloud platform">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Google Cloud platform</h3>
+      </div>
+    </a>
+  </article>
+
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/aws.png' %}" alt="AWS">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Amazon AWS</h3>
+      </div>
+    </a>
+  </article>
+</section>
+<section class="card-grid">
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/nodejs.png' %}" alt="Node js">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Node Js</h3>
+      </div>
+    </a>
+  </article>
+
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/django.png' %}" alt="Python Django">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Python Django</h3>
+      </div>
+    </a>
+  </article>
+
+  <article class="image-card">
+    <a href="#">
+      <div class="image-wrap">
+        <img src="{% static 'images/tech-logos/java.png' %}" alt="Java">
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Java</h3>
+      </div>
+    </a>
+  </article>
+</section>
+
+
+
+{% comment %} <section class="tech-logos">
+  <h2>Technologies we use</h2>
+  <div class="logo-cards">
+    <img src="{% static 'images/tech-logos/openai.png' %}" alt="OpenAI" />
+    <img src="{% static 'images/tech-logos/oracle.png' %}" alt="Oracle" />
+    <img src="{% static 'images/tech-logos/google.png' %}" alt="Azure" />
+    <img src="{% static 'images/tech-logos/aws.png' %}" alt="AWS" />
+    <img src="{% static 'images/tech-logos/google-cloud.png' %}" alt="Google Cloud" />
+    <img src="{% static 'images/tech-logos/salesforce.png' %}" alt="Salesforce" />
+    <img src="{% static 'images/tech-logos/nodejs.png' %}" alt="Node.js" />
+    <img src="{% static 'images/tech-logos/python.png' %}" alt="Python" />
+    <img src="{% static 'images/tech-logos/java.png' %}" alt="Java" />
+  </div>
+</section> {% endcomment %}
+
+<!-- Contact form -->
+<section class="contact" id="contact">
+  <h2>Contact us</h2>
+  <form method="post" action="{% url 'submit_contact' %}" class="form">
+    {% csrf_token %}
+    {{ contact_form.as_p }}
+    {% comment %} <label class="checkbox">
+      <input type="checkbox" name="subscribe" {% if contact_form.subscribe.value %}checked{% endif %}>
+      Subscribe me to the mailing list
+    </label> {% endcomment %}
+    <button type="submit" class="btn btn-primary">Send message</button>
+  </form>
+</section>
+
+
+{% endblock %}
+<script src="{% static 'js/slider.js' %}"></script>
+
+

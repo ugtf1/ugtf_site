@@ -1,0 +1,17 @@
+{% extends "landing/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero small" style="background-image: url('{% static 'images/bg-hero.jpg' %}');">
+  <div class="hero-overlay">
+    <h1>About UGTF</h1>
+    <p>Urhobo Global Tech Foundation</p>
+  </div>
+</section>
+
+<section class="content">
+  <h2>Who we are</h2>
+  <p>UGTF is a technology provider focused on building resilient software systems for African businesses with global ambitions. We specialize in web and mobile products, payment integrations, AI automation, and CRM/LM solutions that align with business goals.</p>
+  <p>We value reliability, clarity, and speed. Our teams practice modern engineering, continuous delivery, and measurable outcomes—so your product grows, your customers are delighted, and your operations feel lighter.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "landing/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-hero small" style="background-image: url('{% static 'images/bg-hero.jpg' %}');">
+  <div class="hero-overlay">
+    <h1>Services</h1>
+    <p>What we deliver</p>
+  </div>
+</section>
+
+<section class="content">
+  <h2>Web & App development</h2>
+  <p>We design and build responsive web apps and mobile apps with clean architecture, robust testing, and secure deployment pipelines.</p>
+
+  <h2>Online payment integration</h2>
+  <p>We integrate payment gateways, support subscriptions, handle settlements, and implement audit-friendly reporting.</p>
+
+  <h2>AI & Automation</h2>
+  <p>We create intelligent agents, automate workflows, and connect your data with decision systems that reduce manual effort.</p>
+
+  <h2>LM/CRM solutions</h2>
+  <p>We implement and customize lead management and CRM tools that reflect your sales process, customer journey, and KPIs.</p>
+</section>
+{% endblock %}

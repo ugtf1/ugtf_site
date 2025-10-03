@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UGTF — Urhobo Global Tech Foundation</title>
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+
+  <style>
+   .card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+@media (max-width: 992px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+/* Card */
+.image-card {
+  border-radius: 12px;
+  overflow: hidden;
+  
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.image-card a {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+}
+
+/* Image wrap with overlay */
+.image-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 500ms ease;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  
+  opacity: 0.6;
+  transition: opacity 300ms ease;
+}
+
+/* Content */
+.card-content {
+  padding: 14px 16px 16px;
+  position: relative;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  margin: 0;
+  transform: translateY(2px);
+  transition: transform 300ms ease, color 300ms ease;
+}
+
+/* Hover effects */
+.image-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+}
+
+.image-card:hover .image-wrap img {
+  transform: scale(1.06);
+}
+
+.image-card:hover .overlay {
+  opacity: 0.35;
+}
+
+.image-card:hover .card-title {
+  transform: translateY(-2px);
+  color: #e6f0ff;
+}
+
+.image-card {
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.image-card:hover {
+  border-color: rgba(120,170,255,0.35);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.25),
+    0 0 0 6px rgba(120,170,255,0.08) inset;
+}
+
+#bgVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 50%;
+    object-fit: cover;
+    z-index: -10; /* keep video behind content */
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    padding-top: 20%;
+}
+
+
+.hero {
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 50%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.hero-overlay {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+</style>
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="{% url 'home' %}">
+        <img src="{% static 'images/logotop.png' %}" alt="UGTF" />
+      </a>
+      <nav class="nav-menu">
+        <a href="{% url 'home' %}" class="nav-link">Home</a>
+        <a href="{% url 'about' %}" class="nav-link">About</a>
+        <a href="{% url 'services' %}" class="nav-link">Service</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-cta">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Page content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <img src="{% static 'images/logo.png' %}" alt="UGTF" class="footer-logo" />
+        <p>UGTF empowers businesses with modern software engineering—web, mobile, cloud, and AI automation crafted for scale.</p>
+      </div>
+      <div class="footer-nav">
+        <a href="{% url 'home' %}" class="footer-link">Home</a>
+        <a href="{% url 'about' %}" class="footer-link">About</a>
+        <a href="{% url 'services' %}" class="footer-link">Service</a>
+        <a href="#contact" class="footer-link">Contact</a>
+      </div>
+      <div class="footer-contact">
+        <p><strong>Email:</strong> info@ugtf.org</p>
+        <p><strong>Phone:</strong> +1 5441 5545</p>
+        <p>New York, United State</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {{ now|date:"Y" }} UGTF — Urhobo Global Tech Foundation. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/main.js' %}"></script>
+  {% comment %} <script src="{% static 'js/slider.js' %}"></script> {% endcomment %}
+
+</body>
+</html>
