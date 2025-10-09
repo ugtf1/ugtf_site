@@ -25,14 +25,33 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l65ktqeoy98$i#3y-kgud8v%lkumg*jeh%ex9^(7=$p3vvu_&k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ['*']
+   
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://ugtfsite2-30228073381.us-west2.run.app/','https://ugtfsite2-30228073381.us-west2.run.app/admin','https://ugtf.org',
+# CSRF_TRUSTED_ORIGINS = []
+
+ALLOWED_HOSTS = [
+    'ugtfsite2-30228073381.us-west2.run.app',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://ugtfsite2-30228073381.us-west2.run.app',
+]
+
+
+
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://ugtfsite2-30228073381.us-west2.run.app/',
+#     'https://ugtfsite2-30228073381.us-west2.run.app/submit-brief/',
+#     'https://ugtfsite2-30228073381.us-west2.run.app/submit-scoping-call/',
+#     'https://ugtfsite2-30228073381.us-west2.run.app/submit-contact/',
+#     'https://ugtfsite2-30228073381.us-west2.run.app/admin',
+#     'https://ugtf.org',
+#     '*',
+#     "*",
+# ]
 
 # Application definition
 

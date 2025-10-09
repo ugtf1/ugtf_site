@@ -163,6 +163,15 @@ body {
 .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 1rem; transition: transform 180ms ease, border-color 180ms ease; }
 .card:hover { transform: translateY(-2px); border-color: #3b82f6; }
 
+/* project grid */
+.project { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+.project h2 { text-align: center; margin-bottom: 1rem; }
+.project-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;
+}
+.card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 1rem; transition: transform 180ms ease, border-color 180ms ease; }
+.card:hover { transform: translateY(-2px); border-color: #3b82f6; }
+
 /* Demo flex */
 .demos { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
 .demo-flex { display: flex; gap: 1rem; flex-wrap: wrap; }

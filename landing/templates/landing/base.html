@@ -130,7 +130,7 @@
     z-index: 1;
     color: white;
     text-align: center;
-    padding-top: 20%;
+    padding-top: 5%;
 }
 
 
@@ -157,6 +157,250 @@
     text-align: center;
     top: 50%;
     transform: translateY(-50%);
+}
+
+
+.about-page {
+    position: relative;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 60px 0;
+}
+
+.overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(2, 2, 2, 0.86);
+    z-index: 1;
+  }
+  
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 60%;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.timeline-item {
+    background: rgba(24, 24, 24, 0.62);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.team-grid, .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.team-card, .service-card, .testimonial-card {
+    background: rgba(10, 9, 9, 0.81);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.team-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.testimonial-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.testimonial-card {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    max-width: 300px;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.slide-up {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible, .slide-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Base transition for all interactive cards */
+.team-card, .service-card, .testimonial-card {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover effect: scale up slightly, add shadow, brighten background */
+.team-card:hover, .service-card:hover, .testimonial-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.15);
+}
+
+/* Image hover effect for team members */
+.team-card img {
+    transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.team-card:hover img {
+    transform: scale(1.05);
+    border: 2px solid rgba(255,255,255,0.6);
+}
+
+/* Service card title hover color change */
+.service-card h3 {
+    transition: color 0.3s ease;
+}
+
+.service-card:hover h3 {
+    color: #ffd700; /* golden highlight */
+}
+
+/* Testimonial text subtle fade on hover */
+.testimonial-card p {
+    transition: opacity 0.3s ease;
+}
+
+.testimonial-card:hover p {
+    opacity: 0.9;
+}
+
+
+.services-page {
+    padding: 60px 20px;
+    background-image: linear-gradient(to right, #2d0561ff, #8a7d09ff);
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+/* Left Heading */
+.services-heading {
+    flex: 1 1 250px;
+}
+
+.services-heading h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ece2e2ff;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.services-heading:hover h1 {
+    transform: translateX(5px);
+    color: #8a7d09ff; /* Elegant blue accent */
+}
+
+/* Right Content */
+.services-content {
+    flex: 2 1 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.service-item {
+    background: #2d0561ff;
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.service-item h2 {
+    margin-bottom: 10px;
+    color: #eceaf1ff;
+    font-size: 1.5rem;
+}
+
+.service-item p {
+    color: #f1eff0ff;
+    line-height: 1.6;
+}
+
+/* Animations */
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-left.visible,
+.fade-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .services-heading h1 {
+        text-align: center;
+    }
 }
 
 </style>
@@ -199,7 +443,7 @@
     <div class="footer-inner">
       <div class="footer-left">
         <img src="{% static 'images/logo.png' %}" alt="UGTF" class="footer-logo" />
-        <p>UGTF empowers businesses with modern software engineering—web, mobile, cloud, and AI automation crafted for scale.</p>
+        <p>UGTF is a mission‑driven software agency that delivers world‑class products for businesses while unlocking global opportunities for Urhobo developers.</p>
       </div>
       <div class="footer-nav">
         <a href="{% url 'home' %}" class="footer-link">Home</a>
@@ -218,8 +462,51 @@
     </div>
   </footer>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const animatedSections = document.querySelectorAll(".fade-in, .slide-up");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.1 });
+
+    animatedSections.forEach(section => {
+        observer.observe(section);
+    });
+});
+
+</script>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const animatedSections = document.querySelectorAll(".fade-in-left, .fade-in-right");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.1 });
+
+    animatedSections.forEach(section => {
+        observer.observe(section);
+    });
+});
+
+</script>
+
+
   <script src="{% static 'js/main.js' %}"></script>
   {% comment %} <script src="{% static 'js/slider.js' %}"></script> {% endcomment %}
+
+  
 
 </body>
 </html>

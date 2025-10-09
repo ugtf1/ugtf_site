@@ -2,16 +2,142 @@
 {% load static %}
 
 {% block content %}
-<section class="page-hero small" style="background-image: url('{% static 'images/bg-hero.jpg' %}');">
+<section class="page-hero small" style="background-image: url('{% static 'images/abtbg2.jpg' %}'); ackground-size: cover; background-position: center; padding: 2rem 0; height: 60vh; position: relative;">
   <div class="hero-overlay">
     <h1>About UGTF</h1>
-    <p>Urhobo Global Tech Foundation</p>
+    <p style="font-weight: 700;">Global‑grade software, powered by Urhobo talent.</p>
   </div>
 </section>
 
-<section class="content">
+{% comment %} <section class="content">
   <h2>Who we are</h2>
   <p>UGTF is a technology provider focused on building resilient software systems for African businesses with global ambitions. We specialize in web and mobile products, payment integrations, AI automation, and CRM/LM solutions that align with business goals.</p>
   <p>We value reliability, clarity, and speed. Our teams practice modern engineering, continuous delivery, and measurable outcomes—so your product grows, your customers are delighted, and your operations feel lighter.</p>
+</section> {% endcomment %}
+
+<section class="about-page" style="background-image: url('/static/images/office1.png');">
+    <div class="overlay"></div>
+    <div class="container">
+
+        <!-- Our Story -->
+        <section class="our-story fade-in">
+            <h2>Mission‑Driven Software Development Agency</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    {% comment %} <span class="year">2015</span> {% endcomment %}
+                    <p>Urhobo Global Tech Foundation (UGTF) is a mission‑driven software agency that connects exceptional developers from underserved Urhobo communities to the global software market. We deliver high‑quality digital products for businesses of all sizes, from startups to enterprises and public sector teams, while expanding opportunities for our engineers and communities.</p>
+                </div>
+                {% comment %} <div class="timeline-item">
+                    <span class="year">2018</span>
+                    <p>Expanded globally, serving clients in over 10 countries.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2023</span>
+                    <p>Launched AI-driven services to enhance productivity and innovation.</p>
+                </div> {% endcomment %}
+            </div>
+        </section>
+
+        <!-- Our Team -->
+        {% comment %} <section class="our-team slide-up">
+            <h2>Meet the Team</h2>
+            <div class="team-grid">
+                {% for member in team %}
+                <div class="team-card">
+                    <img src="{{ member.photo_url }}" alt="{{ member.name }}">
+                    <h3>{{ member.name }}</h3>
+                    <p class="title">{{ member.title }}</p>
+                    <p>{{ member.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section> {% endcomment %}
+
+        <!-- Our Values -->
+        <section class="our-values fade-in">
+            <h2>Mission & Vision</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="year">Mission</span>
+                    <p>To unlock global opportunity for Urhobo technologists and deliver world‑class software that helps businesses move faster, safer, and smarter.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">Vision</span>
+                    <p>A world where place no longer limits potential—Urhobo developers compete and win on the global stage, and customers everywhere gain a trusted partner for modern, secure technology.</p>
+                    <p style="font-style: italic;">Talent is universal. Opportunity should be too.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selling point -->
+        <section class="services slide-up">
+            <h2>Our Major Selling Points</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Experienced approach</h3>
+                    <p>solution architecture, phased roadmaps, and measurable milestones that keep scope, cost, and risk under control.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Full‑stack product build</h3>
+                    <p>modern web & mobile (React/Next.js, React Native), robust backends (Node.js, Django/FastAPI), and well‑designed REST/GraphQL APIs.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Data & AI that actually ships</h3>
+                    <p>analytics pipelines, dashboards, and practical AI features like RAG search and copilots using open‑source or commercial models.</p>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Cloud & DevOps</h3>
+                    <p>AWS/Azure/GCP, infrastructure‑as‑code (Terraform), containers (Docker/Kubernetes), CI/CD, observability, and incident response.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Security by default</h3>
+                    <p>SSO, RBAC, audit trails, secret management, and OWASP‑aware reviews baked into delivery.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Integrations that matter</h3>
+                    <p>payments (Stripe, Paystack, Flutterwave), messaging (email/SMS/WhatsApp), CRM/ERP, identity providers, and third‑party data sources.</p>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Performance & reliability</h3>
+                    <p>caching, CDN, async workers/queues, and uptime/SLO monitoring.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Clear docs & handover</h3>
+                    <p>code you own, runbooks, and admin training so teams can operate independently.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Transparent pricing & support</h3>
+                    <p>straightforward rates, scoped packages, and maintenance SLAs when you need continuity.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Flexible engagement</h3>
+                    <p>project delivery, staff augmentation, or dedicated pods of vetted <span style="font-weight: 800;">Urhobo Engineers</span> aligned to your timezone and workflows.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        {% comment %} <section class="testimonials fade-in">
+            <h2>Client Feedback</h2>
+            <div class="testimonial-carousel">
+                {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <p>"{{ testimonial.quote }}"</p>
+                    <h4>- {{ testimonial.client_name }}</h4>
+                </div>
+                {% endfor %}
+            </div>
+        </section> {% endcomment %}
+
+    </div>
 </section>
+
 {% endblock %}
