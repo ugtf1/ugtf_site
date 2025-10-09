@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UGTF — Urhobo Global Tech Foundation</title>
+  <meta content="Urhobo Global Tech Foundation, UGTF, Dev Ops, Web/App Development, Foundation, Tech, Information Technology, United States, Nigeria" name="keywords">
+  <meta content="Urhobo Global Tech Foundation (UGTF) is a mission‑driven software agency that connects exceptional developers from underserved Urhobo communities to the global software market. We deliver high‑quality digital products for businesses of all sizes, from startups to enterprises and public sector teams, while expanding opportunities for our engineers and communities." name="description">
   <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
 
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -145,7 +147,7 @@
     top: 0;
     left: 0;
     min-width: 100%;
-    min-height: 50%;
+    min-height: 80%;
     object-fit: cover;
     z-index: -1;
 }
@@ -173,7 +175,21 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(2, 2, 2, 0.86);
+    background: rgba(2, 2, 2, 0.94);
+    z-index: 1;
+  }
+.overlay1 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(24, 6, 90, 0.25);
+    z-index: 1;
+  }
+.overlay2 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(126, 93, 21, 0.54);
     z-index: 1;
   }
   
@@ -316,6 +332,7 @@ h2 {
 .services-page {
     padding: 60px 20px;
     background-image: linear-gradient(to right, #2d0561ff, #8a7d09ff);
+    opacity: 0.75;
 }
 
 .container {
@@ -403,7 +420,35 @@ h2 {
     }
 }
 
-</style>
+
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #18314b;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #loader {
+    border: 8px solid #e0d6d6ff;
+    border-top: 8px solid #92940dff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  </style>
 
 </head>
 <body>
@@ -433,6 +478,11 @@ h2 {
     </div>
   {% endif %}
 
+
+<div id="loader-wrapper">
+  <div id="loader"></div>
+</div>
+
   <!-- Page content -->
   <main>
     {% block content %}{% endblock %}
@@ -453,7 +503,7 @@ h2 {
       </div>
       <div class="footer-contact">
         <p><strong>Email:</strong> info@ugtf.org</p>
-        <p><strong>Phone:</strong> +1 5441 5545</p>
+        <p><strong>Phone:</strong> +1 (248) 376-4669</p>
         <p>New York, United State</p>
       </div>
     </div>
@@ -461,6 +511,18 @@ h2 {
       <p>© {{ now|date:"Y" }} UGTF — Urhobo Global Tech Foundation. All rights reserved.</p>
     </div>
   </footer>
+
+
+  <script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader-wrapper");
+    if (loader) {
+      loader.style.opacity = "0";
+loader.style.transition = "opacity 0.5s ease";
+setTimeout(() => loader.style.display = "none", 500);
+    }
+  });
+</script>
 
 <script>
 

@@ -2,12 +2,16 @@
 {% load static %}
 
 {% block content %}
-<section class="page-hero small" style="background-image: url('{% static 'images/bg-hero.jpg' %}');">
+<section class="page-hero small" style="background-image: url('{% static 'images/bg-hero.jpg' %}'); ackground-size: cover; background-position: center; padding: 2rem 0; height: 60vh; position: relative;">
   <div class="hero-overlay">
-    <h1>Services</h1>
-    <p>What we deliver</p>
+    <h1>Services UGTF</h1>
+    <p style="font-weight: 700;">Here are what we deliver</p>
   </div>
 </section>
+
+<section class="about-page" style="background-image: url('/static/images/office1.png');">
+    <div class="overlay2"></div>
+    <div class="container">
 
 <section class="services-page">
     <div class="container">
@@ -19,8 +23,8 @@
         
         <div class="services-content fade-in-right">
           <div class="service-item">
-            <h1>Web/App Development</h1>
-            <p>interactive digital experiences—websites and applications—that run on browsers or mobile devices. It includes both frontend (user interface) and backend (server-side logic) components.</p>
+            <h1>Software Development</h1>
+            <p>UGTF (Urhobo Global Tech Foundation) offers a robust suite of Software Development services tailored for businesses and organizations looking to scale, modernize, or innovate digitally. Here's a breakdown of what we provide: Web Applications: Custom-built platforms for business operations, e-commerce, and service delivery, Mobile Applications: Native and cross-platform apps for iOS and Android, APIs & Platforms: Backend systems and integrations to power scalable digital products, </p>
           </div>
         </div>
 
@@ -37,8 +41,20 @@
         
         <div class="services-content fade-in-right">
           <div class="service-item">
-            <h1>Online Payment Integration</h1>
-            <p>integrate online payment into your web or mobile app, you'll need to choose a payment gateway (like Paystack, Flutterwave, Stripe, or PayPal), set up secure data handling, and connect it to your checkout flow using APIs or SDKs.</p>
+            <h1>Cybersecurity & Penetration Testing</h1>
+            <p>A comprehensive offering that finds real vulnerabilities, measures business risk, and delivers clear, actionable remediation so your systems stay secure and compliant. We offer External Network Penetration Testing — public-facing IPs, firewalls, VPNs, and gateways.
+
+Internal Network Penetration Testing — insider threat simulation, lateral movement, privilege escalation.
+
+Web Application and API Penetration Testing — OWASP Top 10, authentication, session management, injection, XSS.
+
+Cloud Security Assessment — IAM, storage, misconfigurations for AWS, Azure, Google Cloud.
+
+Wireless and IoT Testing — Wi‑Fi security, rogue APs, device vulnerabilities.
+
+Social Engineering and Phishing Campaigns — simulated phishing, vishing, and employee susceptibility testing.
+
+Red Teaming / Advanced Persistent Threat Simulation — multi-stage, goal-oriented attack emulation.</p>
           </div>
         </div>
 
@@ -55,8 +71,24 @@
         
         <div class="services-content fade-in-right">
           <div class="service-item">
-            <h1>Dev Ops</h1>
-            <p>DevOps is a software development approach that combines development (Dev) and operations (Ops) to streamline the process of building, testing, and deploying applications. It emphasizes automation, collaboration, and continuous improvement.</p>
+            <h1>Cloud & DevOps services</h1>
+            <p>A complete Cloud and DevOps offering that designs, builds, and runs scalable, secure, and observable infrastructure so teams deliver software faster and more reliably. We offer; Cloud architecture and migration — cloud readiness assessment; lift-and-shift and cloud-native replatforming.
+
+Infrastructure as Code — reusable IaC with Terraform, CloudFormation, or Pulumi.
+
+CI/CD pipelines — automated build, test, and deploy pipelines with safe deployment strategies such as blue/green and canary deployments.
+
+Containerization and orchestration — Docker image pipelines, Kubernetes cluster design and management, Helm charts.
+
+Platform automation and GitOps — declarative operations, automated rollbacks, and policy-as-code.
+
+Monitoring, logging, and observability — Prometheus, Grafana, ELK/EFK, alerting, and SLO/SLI setup.
+
+Cost optimization and governance — tagging, budgets, rightsizing, and policy enforcement.
+
+Security and compliance — IAM hardening, secrets management, vulnerability scanning, and secure build pipelines.
+
+Managed hosting and run operations — 24/7 operational support, incident response, and patch management.</p>
           </div>
         </div>
 
@@ -73,8 +105,82 @@
         
         <div class="services-content fade-in-right">
           <div class="service-item">
-            <h1>LM/CRM</h1>
-            <p>LM (Lead Management) and CRM (Customer Relationship Management) are both tools used to manage business relationships, but they serve different purposes: LM focuses on acquiring and tracking leads, while CRM manages ongoing customer relationships and interactions.</p>
+            <h1>Data & Analytics</h1>
+            <p>We offer a strategic service that designs data architecture, pipelines, analytics, and dashboards so organizations turn raw data into reliable, actionable insights: Data strategy and roadmap — align analytics objectives to business outcomes; define KPIs and success metrics.
+
+Data architecture and modeling — design modular data platforms, EDW, data lakehouse, or data mesh architectures for scalability and governance.
+
+Data engineering and pipelines — ingest, transform, and catalog data with robust ETL/ELT, schema evolution, and automated testing.
+
+Analytics and BI — interactive dashboards, self-service reporting, and automated reports using Power BI, Tableau, or custom apps.
+
+Advanced analytics and ML enablement — feature stores, model pipelines, and productionization support for predictive and prescriptive use cases.
+
+Data quality, observability, and metadata — profiling, continuous validation, lineage, and metadata to ensure trust and discoverability2.
+
+Governance, privacy, and compliance — access controls, data classification, cataloging, and regulatory mappings for GDPR, HIPAA, or sector rules.
+
+Analytics enablement and training — data literacy programs, playbooks, and role-based training to increase adoption and drive decisions from insights</p>
+          </div>
+        </div>
+
+        
+    </div>
+</section>
+<section class="services-page">
+    <div class="container">
+
+        
+        <div class="services-heading fade-in-left">
+            {% comment %} <h1>Our Services</h1> {% endcomment %}
+        </div>
+        
+        <div class="services-content fade-in-right">
+          <div class="service-item">
+            <h1>UI/UX & Design</h1>
+            <p>UI/UX and design offering that turns user research and business goals into intuitive interfaces, consistent visual systems, and measurable product experiences. roduct Strategy & Research — user interviews, stakeholder workshops, competitive analysis, personas, and journey maps.
+
+Interaction Design — user flows, information architecture, and low‑fidelity wireframes to validate structure and navigation.
+
+Visual Design — high‑fidelity mockups, design systems, iconography, and responsive UI components.
+
+Prototyping & Testing — clickable prototypes, usability test plans, moderated/unmoderated testing, and iteration based on feedback.
+
+Handoff & Implementation Support — redlines, component specs, design tokens, and developer collaboration for seamless build handoff.
+
+UX Writing & Content Strategy — microcopy, error states, and content patterns that improve conversion and clarity</p>
+          </div>
+        </div>
+
+        
+    </div>
+</section>
+<section class="services-page">
+    <div class="container">
+
+        
+        <div class="services-heading fade-in-left">
+            {% comment %} <h1>Our Services</h1> {% endcomment %}
+        </div>
+        
+        <div class="services-content fade-in-right">
+          <div class="service-item">
+            <h1>QA & Testing</h1>
+            <p>A full lifecycle QA and testing offering that ensures software is reliable, secure, performant, and ready for production. Functional Testing: feature verification, regression, integration, and smoke tests.
+
+Test Automation: automated UI, API, and integration suites using Selenium, Playwright, or similar.
+
+Performance & Load Testing: throughput, latency, stress, and capacity assessments.
+
+Security & Vulnerability Testing: static analysis, dependency scanning, and targeted security tests.
+
+Compatibility & Cross‑browser Testing: device matrix and browser matrix validation.
+
+Accessibility Testing: WCAG conformance checks and assistive-technology validations.
+
+User Acceptance Testing Support: test orchestration, UAT scripts, and stakeholder facilitation.
+
+Test Data and Environment Provisioning: synthetic data generation, sandbox setup, and environment orchestration.</p>
           </div>
         </div>
 

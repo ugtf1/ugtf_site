@@ -1,11 +1,11 @@
 :root {
-  --blue-dark: #0d1b2a;
+  --blue-dark: #18314b;
   --blue: #1b263b;
   --yellow: #412e03;
   --text: #f7f9fc;
   --muted: #cbd5e1;
-  --bg: #0b1320;
-  --card: #111827;
+  --bg: #18314b;
+  --card: #18314b;
 }
 
 /* Reset-ish */
@@ -13,7 +13,7 @@
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  background: #0b1320;
+  background: #18314b;
   background-image: url('./images/bg-hero.jpg');
   background-size: cover;
   background-attachment: fixed;
@@ -157,8 +157,14 @@ body {
 /* Services grid */
 .services { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
 .services h2 { text-align: center; margin-bottom: 1rem; }
-.service-grid {
+/* .service-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;
+} */
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  gap: 1rem;
 }
 .card { background: var(--card); border: 1px solid #1f2937; border-radius: 16px; padding: 1rem; transition: transform 180ms ease, border-color 180ms ease; }
 .card:hover { transform: translateY(-2px); border-color: #3b82f6; }
@@ -224,4 +230,10 @@ body {
   .nav-inner { grid-template-columns: 1fr 1fr; }
   .nav-cta { display: none; }
   .footer-inner { grid-template-columns: 1fr; }
+  .service-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;
+} 
+.footer {
+  margin-top: 9rem;
+}
 }
