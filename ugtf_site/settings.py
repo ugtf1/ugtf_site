@@ -25,20 +25,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l65ktqeoy98$i#3y-kgud8v%lkumg*jeh%ex9^(7=$p3vvu_&k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']
    
 
-# CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = []
 
-ALLOWED_HOSTS = [
-    'ugtfsite2-30228073381.us-west2.run.app',
-]
+# ALLOWED_HOSTS = [
+#     'ugtfsite2-30228073381.us-west2.run.app',
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://ugtfsite2-30228073381.us-west2.run.app',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://ugtfsite2-30228073381.us-west2.run.app',
+# ]
 
 
 
@@ -74,6 +74,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "myproject.middleware.CacheControlMiddleware",
+
 ]
 
 ROOT_URLCONF = 'ugtf_site.urls'

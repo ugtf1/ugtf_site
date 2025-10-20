@@ -10,7 +10,7 @@
   <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+  
 
   <style>
    .card-grid {
@@ -117,15 +117,7 @@
     0 0 0 6px rgba(120,170,255,0.08) inset;
 }
 
-#bgVideo {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 50%;
-    object-fit: cover;
-    z-index: -10; /* keep video behind content */
-}
+
 
 .content {
     position: relative;
@@ -162,7 +154,7 @@
 }
 
 .about-page {
-    background-image: url("{% static 'images/office1.png' %}");
+    background-image: url("{% static 'images/office1.webp' %}");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -430,9 +422,9 @@ h2 {
     }
 
     .about-page {
-    background-image: url("{% static 'images/office1.png' %}");
+    background-image: url("{% static 'images/office1.webp' %}");
     background-repeat: no-repeat;
-    background-attachment: relative;
+    
     background-size: 700px 600px;
     background-position: 20% 80%;
     padding: 40px 0;
@@ -454,16 +446,16 @@ h2 {
   
 
 }
-      .nav-menu {
-        display: none;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background: #222;
-        flex-direction: column;
-        border: 1px solid #444;
-        padding: 1rem;
-      }
+.nav-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #222;
+  flex-direction: column;
+  border: 1px solid #444;
+  padding: 1rem;
+  }
 
       .nav-links {
         display: none;
