@@ -105,12 +105,7 @@ jobs:
             --settings.throttlingMethod=provided || true
 
           DESKTOP_REPORT=$(find .lighthouseci -name "lhr-*.json" | sort | tail -n 1)
-          if [ -z "$DESKTOP_REPORT" ]; then
-            echo "❌ Desktop Lighthouse report not found!"
-            exit 1
-          fi
-          cp "$DESKTOP_REPORT" ./lighthouse-desktop.json
-          echo "✅ Desktop report saved as lighthouse-desktop.json"
+          cp "$DESKTOP_REPORT" .lighthouseci/lighthouse-desktop.json
 
           echo "📱 Running Lighthouse (Mobile)..."
           lhci collect \
@@ -120,34 +115,42 @@ jobs:
             --settings.throttlingMethod=simulate || true
 
           MOBILE_REPORT=$(find .lighthouseci -name "lhr-*.json" | sort | tail -n 1)
-          if [ -z "$MOBILE_REPORT" ]; then
-            echo "❌ Mobile Lighthouse report not found!"
-            exit 1
-          fi
-          cp "$MOBILE_REPORT" ./lighthouse-mobile.json
-          echo "✅ Mobile report saved as lighthouse-mobile.json"
+          cp "$MOBILE_REPORT" .lighthouseci/lighthouse-mobile.json
 
-      - name: Extract Lighthouse Scores
+      - name: Extract Lighthouse Scores (Desktop + Mobile)
         id: summary
         run: |
-          get_score() { jq -r ".categories.$1.score" "$2"; }
+          echo "Extracting metrics from Lighthouse reports..."
+          DESKTOP_REPORT=$(find .lighthouseci -name "lighthouse-desktop.json")
+          MOBILE_REPORT=$(find .lighthouseci -name "lighthouse-mobile.json")
 
-          extract_summary() {
-            REPORT="$1"; DEVICE="$2"
-            PERF=$(get_score performance $REPORT)
-            ACCESS=$(get_score accessibility $REPORT)
-            BEST=$(jq -r '.categories["best-practices"].score' $REPORT)
-            SEO=$(get_score seo $REPORT)
-            LCP=$(jq -r '.audits["largest-contentful-paint"].numericValue' $REPORT)
-            CLS=$(jq -r '.audits["cumulative-layout-shift"].numericValue' $REPORT)
-            TBT=$(jq -r '.audits["total-blocking-time"].numericValue' $REPORT)
-            echo "${DEVICE}: Performance=${PERF}, Accessibility=${ACCESS}, BestPractices=${BEST}, SEO=${SEO}, LCP=${LCP}ms, CLS=${CLS}, TBT=${TBT}ms"
-          }
+          if [ -z "$DESKTOP_REPORT" ] || [ -z "$MOBILE_REPORT" ]; then
+            echo "❌ Missing one or both Lighthouse reports!"
+            exit 1
+          fi
 
-          DESKTOP_SUMMARY=$(extract_summary lighthouse-desktop.json "🖥️ Desktop")
-          MOBILE_SUMMARY=$(extract_summary lighthouse-mobile.json "📱 Mobile")
+          # Desktop metrics
+          DESKTOP_PERF=$(jq '.categories.performance.score' $DESKTOP_REPORT)
+          DESKTOP_ACC=$(jq '.categories.accessibility.score' $DESKTOP_REPORT)
+          DESKTOP_BP=$(jq '.categories["best-practices"].score' $DESKTOP_REPORT)
+          DESKTOP_SEO=$(jq '.categories.seo.score' $DESKTOP_REPORT)
+          DESKTOP_LCP=$(jq '.audits["largest-contentful-paint"].numericValue' $DESKTOP_REPORT)
+          DESKTOP_CLS=$(jq '.audits["cumulative-layout-shift"].numericValue' $DESKTOP_REPORT)
+          DESKTOP_TBT=$(jq '.audits["total-blocking-time"].numericValue' $DESKTOP_REPORT)
 
-          SUMMARY="Lighthouse Results:\n$DESKTOP_SUMMARY\n$MOBILE_SUMMARY"
+          # Mobile metrics
+          MOBILE_PERF=$(jq '.categories.performance.score' $MOBILE_REPORT)
+          MOBILE_ACC=$(jq '.categories.accessibility.score' $MOBILE_REPORT)
+          MOBILE_BP=$(jq '.categories["best-practices"].score' $MOBILE_REPORT)
+          MOBILE_SEO=$(jq '.categories.seo.score' $MOBILE_REPORT)
+          MOBILE_LCP=$(jq '.audits["largest-contentful-paint"].numericValue' $MOBILE_REPORT)
+          MOBILE_CLS=$(jq '.audits["cumulative-layout-shift"].numericValue' $MOBILE_REPORT)
+          MOBILE_TBT=$(jq '.audits["total-blocking-time"].numericValue' $MOBILE_REPORT)
+
+          SUMMARY="Lighthouse Results:
+          🖥️ Desktop: Performance=$DESKTOP_PERF, Accessibility=$DESKTOP_ACC, BestPractices=$DESKTOP_BP, SEO=$DESKTOP_SEO, LCP=${DESKTOP_LCP}ms, CLS=${DESKTOP_CLS}, TBT=${DESKTOP_TBT}ms
+          📱 Mobile: Performance=$MOBILE_PERF, Accessibility=$MOBILE_ACC, BestPractices=$MOBILE_BP, SEO=$MOBILE_SEO, LCP=${MOBILE_LCP}ms, CLS=${MOBILE_CLS}, TBT=${MOBILE_TBT}ms"
+
           SUMMARY_ESCAPED=$(echo "$SUMMARY" | tr '\n' ' ' | tr -d '\r')
           echo "lighthouse_summary=$SUMMARY_ESCAPED" >> $GITHUB_OUTPUT
 
@@ -239,5 +242,3 @@ jobs:
 
             **🧩 SEO Summary**
             ${{ needs.seo-audit.outputs.issues_summary }}
-
-# *** under construction ***
