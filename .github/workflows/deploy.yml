@@ -1,0 +1,241 @@
+# UGTF CI/CD Pipeline for Django on Google Cloud Run
+name: Django CI/CD to Cloud Run (ugtf_site)
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: top-cedar-471512-k3
+  PROJECT_NUMBER: 30228073381
+  REGION: us-east1
+  SERVICE_NAME: ugtfsite
+  SERVICE_URL: https://ugtfsite-30228073381.us-east1.run.app
+
+jobs:
+  # 1️⃣ Build and Deploy
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          workload_identity_provider: projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/ugtf-github-pool/providers/github-actions
+          service_account: github-runner-ugtf@${{ env.PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and Push Docker Image
+        id: build
+        run: |
+          IMAGE_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+          echo "Building image: $IMAGE_TAG"
+          docker build -t "$IMAGE_TAG" .
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+          docker push "$IMAGE_TAG"
+          echo "image=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ env.SERVICE_NAME }}
+          region: ${{ env.REGION }}
+          image: ${{ steps.build.outputs.image }}
+          wait: true
+
+  # 2️⃣ Health Check
+  health-check:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Cloud Run deployment health
+        run: |
+          echo "Checking service health at ${{ env.SERVICE_URL }}..."
+          for i in {1..10}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ env.SERVICE_URL }})
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Health check passed (HTTP 200)"
+              exit 0
+            fi
+            echo "Waiting for service... (status $STATUS)"
+            sleep 5
+          done
+          echo "❌ Service did not become healthy in time."
+          exit 1
+
+  # 3️⃣ Lighthouse Audit (Desktop + Mobile)
+  lighthouse-audit:
+    needs: health-check
+    runs-on: ubuntu-latest
+    outputs:
+      lighthouse_summary: ${{ steps.summary.outputs.lighthouse_summary }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.13.x jq
+
+      - name: Run Lighthouse Audit (Desktop + Mobile)
+        run: |
+          mkdir -p .lighthouseci
+
+          echo "🏁 Running Lighthouse (Desktop)..."
+          lhci collect \
+            --url=${{ env.SERVICE_URL }} \
+            --numberOfRuns=1 \
+            --settings.formFactor=desktop \
+            --settings.screenEmulation.mobile=false \
+            --settings.throttlingMethod=provided || true
+
+          DESKTOP_REPORT=$(find .lighthouseci -name "lhr-*.json" | sort | tail -n 1)
+          if [ -z "$DESKTOP_REPORT" ]; then
+            echo "❌ Desktop Lighthouse report not found!"
+            exit 1
+          fi
+          cp "$DESKTOP_REPORT" ./lighthouse-desktop.json
+          echo "✅ Desktop report saved as lighthouse-desktop.json"
+
+          echo "📱 Running Lighthouse (Mobile)..."
+          lhci collect \
+            --url=${{ env.SERVICE_URL }} \
+            --numberOfRuns=1 \
+            --settings.formFactor=mobile \
+            --settings.throttlingMethod=simulate || true
+
+          MOBILE_REPORT=$(find .lighthouseci -name "lhr-*.json" | sort | tail -n 1)
+          if [ -z "$MOBILE_REPORT" ]; then
+            echo "❌ Mobile Lighthouse report not found!"
+            exit 1
+          fi
+          cp "$MOBILE_REPORT" ./lighthouse-mobile.json
+          echo "✅ Mobile report saved as lighthouse-mobile.json"
+
+      - name: Extract Lighthouse Scores
+        id: summary
+        run: |
+          get_score() { jq -r ".categories.$1.score" "$2"; }
+
+          extract_summary() {
+            REPORT="$1"; DEVICE="$2"
+            PERF=$(get_score performance $REPORT)
+            ACCESS=$(get_score accessibility $REPORT)
+            BEST=$(jq -r '.categories["best-practices"].score' $REPORT)
+            SEO=$(get_score seo $REPORT)
+            LCP=$(jq -r '.audits["largest-contentful-paint"].numericValue' $REPORT)
+            CLS=$(jq -r '.audits["cumulative-layout-shift"].numericValue' $REPORT)
+            TBT=$(jq -r '.audits["total-blocking-time"].numericValue' $REPORT)
+            echo "${DEVICE}: Performance=${PERF}, Accessibility=${ACCESS}, BestPractices=${BEST}, SEO=${SEO}, LCP=${LCP}ms, CLS=${CLS}, TBT=${TBT}ms"
+          }
+
+          DESKTOP_SUMMARY=$(extract_summary lighthouse-desktop.json "🖥️ Desktop")
+          MOBILE_SUMMARY=$(extract_summary lighthouse-mobile.json "📱 Mobile")
+
+          SUMMARY="Lighthouse Results:\n$DESKTOP_SUMMARY\n$MOBILE_SUMMARY"
+          SUMMARY_ESCAPED=$(echo "$SUMMARY" | tr '\n' ' ' | tr -d '\r')
+          echo "lighthouse_summary=$SUMMARY_ESCAPED" >> $GITHUB_OUTPUT
+
+  # 4️⃣ Python SEO Audit
+  seo-audit:
+    needs: lighthouse-audit
+    runs-on: ubuntu-latest
+    outputs:
+      issues_summary: ${{ steps.summary.outputs.issues_summary }}
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml jq
+
+      - name: Run SEO Audit
+        run: |
+          python - <<'EOF'
+          import requests, json
+          from bs4 import BeautifulSoup
+          from urllib.parse import urljoin
+
+          url = "${{ env.SERVICE_URL }}"
+          print(f"🔍 Auditing {url} for SEO issues...")
+          resp = requests.get(url, timeout=10)
+          soup = BeautifulSoup(resp.text, "lxml")
+
+          issues = []
+          if not soup.title or not soup.title.string.strip():
+              issues.append("Missing <title>")
+          if not soup.find("meta", attrs={"name": "description"}):
+              issues.append("Missing meta description")
+          if not soup.find("h1"):
+              issues.append("Missing <h1> tag")
+
+          broken_links = []
+          for a in soup.find_all("a", href=True):
+              link = urljoin(url, a["href"])
+              if link.startswith(("tel:", "mailto:")):
+                  continue
+              try:
+                  r = requests.head(link, allow_redirects=True, timeout=5)
+                  if r.status_code >= 400:
+                      broken_links.append(link)
+              except Exception:
+                  broken_links.append(link)
+          if broken_links:
+              issues.append(f"{len(broken_links)} broken links found")
+
+          report = {"url": url, "issues": issues, "broken_links": broken_links, "total_issues": len(issues)}
+          with open("seo-results.json", "w") as f:
+              json.dump(report, f, indent=2)
+          print(f"✅ SEO audit complete: {len(issues)} issues found.")
+          EOF
+
+      - name: Generate SEO Summary
+        id: summary
+        run: |
+          SUMMARY=$(jq -r '.issues[:3] | join(", ")' seo-results.json)
+          echo "issues_summary=$SUMMARY" >> $GITHUB_OUTPUT
+
+  # 5️⃣ Notify via Email
+  notify:
+    needs: [lighthouse-audit, seo-audit]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email Summary
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "🚀 UGTF CI/CD Report: ${{ env.SERVICE_NAME }} Deployment Results"
+          to: ono@ugtf.org
+          from: UGTF CI Bot
+          body: |
+            ✅ Deployment completed for *${{ env.SERVICE_NAME }}*
+
+            🌍 URL: ${{ env.SERVICE_URL }}
+
+            **📊 Lighthouse Summary**
+            ${{ needs.lighthouse-audit.outputs.lighthouse_summary }}
+
+            **🧩 SEO Summary**
+            ${{ needs.seo-audit.outputs.issues_summary }}
