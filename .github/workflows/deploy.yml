@@ -90,12 +90,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli@0.13.x jq
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          npm install -g @lhci/cli@0.13.x
 
       - name: Run Lighthouse Audit (Desktop + Mobile)
         run: |
           mkdir -p .lighthouseci
-
           echo "🏁 Running Lighthouse (Desktop)..."
           lhci collect \
             --url=${{ env.SERVICE_URL }} \
@@ -129,7 +130,6 @@ jobs:
             exit 1
           fi
 
-          # Desktop metrics
           DESKTOP_PERF=$(jq '.categories.performance.score' $DESKTOP_REPORT)
           DESKTOP_ACC=$(jq '.categories.accessibility.score' $DESKTOP_REPORT)
           DESKTOP_BP=$(jq '.categories["best-practices"].score' $DESKTOP_REPORT)
@@ -138,7 +138,6 @@ jobs:
           DESKTOP_CLS=$(jq '.audits["cumulative-layout-shift"].numericValue' $DESKTOP_REPORT)
           DESKTOP_TBT=$(jq '.audits["total-blocking-time"].numericValue' $DESKTOP_REPORT)
 
-          # Mobile metrics
           MOBILE_PERF=$(jq '.categories.performance.score' $MOBILE_REPORT)
           MOBILE_ACC=$(jq '.categories.accessibility.score' $MOBILE_REPORT)
           MOBILE_BP=$(jq '.categories["best-practices"].score' $MOBILE_REPORT)
